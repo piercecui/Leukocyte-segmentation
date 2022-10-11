@@ -1,7 +1,7 @@
 import torch
 from torchvision.transforms import transforms as T
 from torch.optim import lr_scheduler
-import argparse #argparse模块的作用是用于解析命令行参数，例如python parseTest.py input.txt --port=8080
+import argparse #argparse模块的作用是用于解析命令行参数
 import unet_4
 from torch import optim
 from dataset import CellDataset
@@ -13,7 +13,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import time
 import random
-# 是否使用current cuda device or torch.device('cuda:0')
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #p1 = random.randint(0,1)
@@ -26,7 +26,7 @@ x_transform = T.Compose([
     T.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])#torchvision.transforms.Normalize(mean, std, inplace=False)
 ])
 
-# mask只需要转换为tensor
+
 torch.manual_seed(1)
 y_transform = T.Compose([
     #T.RandomVerticalFlip(p1),
@@ -116,8 +116,6 @@ def train_model(model,criterion,optimizer,scheduler,dataload,num_epochs=10):
 def val():
     model = unet_4.UNet(3,1)
     model.load_state_dict(torch.load('weight_%d.pth' % epoch,map_location='cpu'))
-    '''for name, parameters in model.state_dict().items():
-        print(name,':',parameters.detach().numpy())'''
     val_sum_accuracy=0
     val_cell_dataset = CellDataset("/Users/pierce/Desktop/summer internship/learning/whitecell/sharpen_val", transform=x_transform, target_transform=y_transform)
     val_dataloaders = DataLoader(val_cell_dataset,batch_size=args.batch_size)
@@ -141,12 +139,7 @@ def val():
 
 #训练模型
 def train():
-    #global learning_rate,lamb,num_epochs,times
-    #for para_lr in range(3):
-        #learning_rate=round(random.uniform(0.0001,0.01),4)
-        #for para_lamb in range(6):
-            #lamb=round(random.uniform(0.005,0.1),4)
-            #print('--------This is',str(times),'model:lr=',str(learning_rate),'lambda='+str(lamb)+'--------\n')
+
     model = unet_4.UNet(3,1).to(device)
     batch_size = args.batch_size
     criterion = torch.nn.BCELoss()
