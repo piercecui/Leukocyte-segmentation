@@ -10,7 +10,6 @@ class DoubleConv(nn.Module):
         super(DoubleConv,self).__init__()
         self.conv = nn.Sequential(
                 nn.Conv2d(in_ch,out_ch,3,padding=1),#in_ch、out_ch是通道数
-                #init.kaiming_normal_(Conv2d.weight,a=0, mode='fan_in', nonlinearity='relu'),
                 nn.BatchNorm2d(out_ch),
                 nn.ReLU(inplace = True),
                 nn.Conv2d(out_ch,out_ch,3,padding=1),
@@ -48,17 +47,6 @@ class UNet(nn.Module):
         
         self.conv10 = nn.Conv2d(64,out_ch,1)
         
-    
-    '''def __weight_init(self,net):
-        # 进行权值初始化  如果不自己初始化，则使用的默认方法 init.kaiming_uniform_  0均值的正态分布
-        for m in net.modules(): # 递归获得net的所有子代Module
-            if isinstance(m, nn.Conv2d):  #也可以使用torch.nn.init.  https://www.cnblogs.com/jfdwd/p/11269622.html
-                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n)) #mean, std  从方差一致性出发 
-                #leakyrelu的初始化 0均值的正态分布改为  std = sqrt(2/(1+a^2)*fan_in)
-            elif isinstance(m, nn.BatchNorm2d):#这里建议去学习一下BN的知识，有空我也会再写一篇
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()'''
 
 
 
