@@ -6,9 +6,8 @@ import PIL.Image as Image
 #所有子类应该override __len__和__getitem__，前者提供了数据集的大小，后者支持整数索引，范围从0到len(self)
 
 class CellDataset(data.Dataset):
-    #创建LiverDataset类的实例时，就是在调用init初始化
     def __init__(self,root,transform = None,target_transform = None):#root表示图片路径
-        n = len(os.listdir(root))//2 #os.listdir(path)返回指定路径下的文件和文件夹列表。/是真除法,//对结果取整
+        n = len(os.listdir(root))//2 
         
         imgs = []
         for i in range(n):
